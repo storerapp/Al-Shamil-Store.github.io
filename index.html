@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الشامل | Al-Shamel IPTV Store</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Cairo for Arabic & Poppins for English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --font-ar: 'Cairo', sans-serif;
+            --font-en: 'Poppins', sans-serif;
+        }
+        body {
+            font-family: var(--font-ar);
+            background-color: #0d0d11;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .en-mode {
+            font-family: var(--font-en);
+        }
+        /* خلفية متحركة ذكية */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(88,28,135,0.4) 50%, rgba(13,13,17,0.9) 100%);
+            z-index: 1;
+        }
+        .gradient-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+            z-index: 0;
+            mix-blend-mode: overlay;
+        }
+        /* تأثير التكبير المطور للباقات عند التحويم */
+        .subscription-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .subscription-card:hover {
+            transform: scale(1.06);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.25);
+            border-color: #8b5cf6;
+        }
+        /* شريط متحرك للقنوات */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .en-mode .marquee-content {
+            animation: marquee-en 30s linear infinite;
+        }
+        @keyframes marquee-en {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        }
+        /* زر واتساب العائم */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            animation: pulse 2s infinite;
+        }
+        .en-mode .whatsapp-float {
+            right: auto;
+            left: 30px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        /* تأثيرات الزجاج */
+        .glass-panel {
+            background: rgba(22, 22, 30, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-[#07070a]">
+
+    <!-- زر واتساب العائم -->
+    <a href="https://wa.me/9647706000095" target="_blank" class="whatsapp-float bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-xl hover:bg-green-600 transition-colors">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- الهيدر ونظام تغيير اللغة -->
+    <nav class="glass-panel fixed top-0 w-full z-40 px-6 py-4 flex justify-between items-center border-b border-white/10">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <i class="fas fa-tv text-white text-lg"></i>
+            </div>
+            <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-purple-400 tracking-wide" data-key="logo">متجر الشامل</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="#packages" class="hover:text-purple-400 font-medium transition-colors hidden md:block" data-key="nav-packages">الاشتراكات</a>
+            <a href="#apps" class="hover:text-purple-400 font-medium transition-colors hidden md:block" data-key="nav-apps">التطبيقات</a>
+            <a href="#resellers" class="hover:text-purple-400 font-medium transition-colors hidden md:block" data-key="nav-resellers">لوحة الموزعين</a>
+            <button onclick="toggleLanguage()" class="bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-2">
+                <i class="fas fa-globe text-purple-400"></i>
+                <span id="lang-btn-text">English</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- البانر العلوي التفاعلي (Hero Section) -->
+    <header class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
+        <!-- الخلفية السنمائية المتحركة المعتمدة على الذكاء الاصطناعي الجمالي -->
+        <div class="animated-bg"></div>
+        <img src="https://images.unsplash.com/photo-1593789198777-f29bc259780e?auto=format&fit=crop&q=80&w=1920" class="gradient-canvas" alt="Streaming Backdrop">
+        
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center mt-12">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs md:text-sm font-semibold mb-6 animate-bounce">
+                <i class="fas fa-bolt text-amber-400"></i> <span data-key="hero-badge">أقوى متجر متخصص في مجال IPTV عالمياً</span>
+            </span>
+            <h1 class="text-4xl md:text-7xl font-extrabold text-white mb-6 leading-tight" data-key="hero-title">
+                عالم من الترفيه بـ <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">جودة 4K & FHD</span> بين يديك
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" data-key="hero-desc">
+                أفضل السيرفرات العالمية تضم كافة القنوات المشفرة والترفيهية، وأحدث الأفلام والمسلسلات. دعم فوري وشامل لجميع الأجهزة الذكية.
+            </p>
+
+            <!-- فحص سرعة الإنترنت مدمج لزيادة الموثوقية والتجربة التجريبية -->
+            <div class="glass-panel p-6 rounded-2xl max-w-xl mx-auto mb-8 border border-white/5 shadow-2xl">
+                <h3 class="text-md font-bold mb-3 text-purple-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-tachometer-alt"></i> <span data-key="speed-title">خطوة هامة قبل طلب الاشتراك التجريبي</span>
+                </h3>
+                <p class="text-sm text-gray-400 mb-4" data-key="speed-desc">يرجى فحص سرعة الإنترنت لديك أولاً وإرسال لقطة شاشة للنتيجة لنمنحك السيرفر الأنسب لك.</p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <a href="https://speed.cloudflare.com/" target="_blank" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all text-sm flex items-center gap-2">
+                        <i class="fas fa-external-link-alt"></i> <span data-key="speed-btn">افحص سرعتك الآن</span>
+                    </a>
+                    <a href="https://wa.me/9647706000095" target="_blank" class="bg-white/10 hover:bg-white/15 text-white font-semibold px-6 py-2.5 rounded-xl border border-white/10 transition-all text-sm flex items-center gap-2">
+                        <i class="fas fa-vial"></i> <span data-key="demo-btn">طلب اشتراك تجريبي</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ميزات المتجر السريعة -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-center mt-8">
+                <div class="p-4 rounded-xl bg-white/5 border border-white/5"><i class="fas fa-bolt text-amber-400 text-xl mb-2"></i><h4 class="text-sm font-bold" data-key="feat-1">تفعيل فوري ودقائق معدودة</h4></div>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/5"><i class="fas fa-headset text-purple-400 text-xl mb-2"></i><h4 class="text-sm font-bold" data-key="feat-2">دعم فني متواصل 24/7</h4></div>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/5"><i class="fas fa-shield-alt text-blue-400 text-xl mb-2"></i><h4 class="text-sm font-bold" data-key="feat-3">جودة وثبات عالي بدون تقطيع</h4></div>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/5"><i class="fas fa-gift text-pink-400 text-xl mb-2"></i><h4 class="text-sm font-bold" data-key="feat-4">هدايا وعروض متجددة حصرية</h4></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم شريط القنوات الدوار المتحرك (Visual Showcase) -->
+    <section class="py-10 bg-black/40 border-y border-white/5 overflow-hidden">
+        <div class="marquee-container">
+            <div class="marquee-content flex gap-8 items-center opacity-70">
+                <!-- نماذج وصور مصغرة حصرية وشعارات محتوى ترفيهي ورياضي -->
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-film text-red-500"></i> BEIN SPORTS HD</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-tv text-purple-500"></i> OSN NETWORK</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-video text-blue-500"></i> NETFLIX ORIGINAL</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-star text-amber-500"></i> SHAHID VIP</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-compact-disc text-green-500"></i> HBO MAX</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-film text-red-500"></i> BEIN SPORTS HD</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-tv text-purple-500"></i> OSN NETWORK</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-video text-blue-500"></i> NETFLIX ORIGINAL</span>
+                <span class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-star text-amber-500"></i> SHAHID VIP</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم باقات السيرفرات العالمية والاشتراكات الرائعة -->
+    <main id="packages" class="py-24 max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-black text-white mb-4" data-key="pkg-title">باقات سيرفراتنا العالمية المتميزة</h2>
+            <p class="text-gray-400" data-key="pkg-desc">اختر السيرفر المناسب لاحتياجاتك واضغط للاشتراك الفوري عبر الواتساب</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Server 1: MAX TV PRO -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">RECOMMENDED</span>
+                        <i class="fas fa-fire-alt text-2xl text-purple-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">MAX TV PRO</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-1">ثبات مطلق وقائمة ضخمة ومتنوعة من أحدث الأفلام والمسلسلات بجودة فائقة.</p>
+                    
+                    <!-- قائمة الأسعار داخل الكارد مدمجة ومميزة -->
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-purple-400">5,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-purple-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-purple-400">15,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">25,000 د.ع</span></div>
+                    </div>
+
+                    <!-- روابط التحميل والأكواد للسيرفر -->
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <p><strong>Android App:</strong> Max Show TV</p>
+                        <p><strong>Downloader Code:</strong> <span class="text-amber-400 font-mono">8229193</span></p>
+                        <a href="http://www.maxtv.me/apks/Max-Show-TV.apk" class="text-blue-400 hover:underline block truncate"><i class="fas fa-download mr-1"></i> رابط مباشر للاندرويد</a>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Server Code: <span class="text-purple-400 font-bold">max</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%20MAX%20TV%20PRO" target="_blank" class="mt-6 block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+            <!-- Server 2: TOP 4K -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">ULTRA HD</span>
+                        <i class="fas fa-gem text-2xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">TOP 4K</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-2">عش تجربة السينما الحقيقية بجودة 4K مذهلة ومحتوى ترفيهي متكامل.</p>
+                    
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-blue-400">5,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-blue-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-blue-400">13,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">20,000 د.ع</span></div>
+                    </div>
+
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <p><strong>Android App:</strong> Pro 8K app</p>
+                        <p><strong>Downloader Codes:</strong> <span class="text-amber-400 font-mono">842544</span> / <span class="text-amber-400 font-mono">2008798</span></p>
+                        <a href="https://shtv-reb.cyou/apk/PRO8K.apk" class="text-blue-400 hover:underline block truncate"><i class="fas fa-download mr-1"></i> رابط مباشر للاندرويد</a>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Server Code: <span class="text-blue-400 font-bold">964</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%20TOP%204K" target="_blank" class="mt-6 block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+            <!-- Server 3: DH VIP PLUS -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">PREMIUM VIP</span>
+                        <i class="fas fa-crown text-2xl text-amber-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">DH VIP PLUS</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-3">السيرفر الأكثر طلباً للمباريات والأحداث المباشرة الكبرى بكافة الجودات المتاحة.</p>
+                    
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-amber-400">5,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-amber-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-amber-400">13,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">20,000 د.ع</span></div>
+                    </div>
+
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <p><strong>Android Apps:</strong> DH Plus VIP & DH PLUS 4K</p>
+                        <p><strong>Downloader Codes:</strong> <span class="text-amber-400 font-mono">1827197</span> / <span class="text-amber-400 font-mono">918269</span></p>
+                        <div class="flex flex-col gap-1">
+                            <a href="https://www.mediafire.com/file/twyp7jt9daqn34h/new_dh.apk/file" target="_blank" class="text-blue-400 hover:underline truncate"><i class="fas fa-link mr-1"></i> MediaFire DH VIP</a>
+                            <a href="https://www.mediafire.com/file/zrjbbac65rdbvp7/DHplus4k.apk/file" target="_blank" class="text-blue-400 hover:underline truncate"><i class="fas fa-link mr-1"></i> MediaFire DH 4K</a>
+                        </div>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Codes: <span class="text-amber-400 font-bold">3337</span> / <span class="text-amber-400 font-bold">964</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%20DH%20VIP%20PLUS" target="_blank" class="mt-6 block w-full text-center bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+            <!-- Server 4: VULTURE TV -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">HIGH STABILITY</span>
+                        <i class="fas fa-dove text-2xl text-red-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">VULTURE TV</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-4">يتميز بالسرعة العالية والواجهة السلسة المناسبة لجميع أفراد العائلة والأطفال.</p>
+                    
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-red-400">5,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-red-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-red-400">15,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">25,000 د.ع</span></div>
+                    </div>
+
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <a href="https://play.google.com/store/apps/details?id=shadeed.vulturenow" target="_blank" class="text-blue-400 hover:underline block truncate"><i class="fab fa-google-play mr-1"></i> تحميل من متجر Google Play</a>
+                        <p class="mt-1"><strong>Downloader Codes:</strong> <span class="text-amber-400 font-mono">7055168</span> / <span class="text-amber-400 font-mono">9408060</span> / <span class="text-amber-400 font-mono">3441660</span></p>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Server Code: <span class="text-red-400 font-bold">HQTV</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%20VULTURE%20TV" target="_blank" class="mt-6 block w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+            <!-- Server 5: 8K STRONG -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">ULTIMATE 8K</span>
+                        <i class="fas fa-weight-hanging text-2xl text-emerald-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">8K STRONG</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-5">أقوى سيرفر في العالم بدون منازع، جودة بث خارقة 8K مخصص للشاشات العملاقة والاتصالات السريعة.</p>
+                    
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-emerald-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-emerald-400">20,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-emerald-400">35,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">60,000 د.ع</span></div>
+                    </div>
+
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <p><strong>Downloader Code:</strong> <span class="text-amber-400 font-mono">6883465</span></p>
+                        <a href="https://8kiptv.co/tv/application" target="_blank" class="text-blue-400 hover:underline block truncate"><i class="fas fa-link mr-1"></i> الرابط الرسمي للتطبيق</a>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Server Code: <span class="text-emerald-400 font-bold">964</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%208K%20STRONG" target="_blank" class="mt-6 block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+            <!-- Server 6: BEST 4K -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full">BEST SELLER</span>
+                        <i class="fas fa-thumbs-up text-2xl text-cyan-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">BEST 4K</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-6">توازن مذهل بين السعر الاقتصادي والجودة العالية. خيار رائع لجميع الباقات العائلية.</p>
+                    
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-cyan-400">5,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-cyan-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-cyan-400">15,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">25,000 د.ع</span></div>
+                    </div>
+
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <a href="https://sh-apps.cyou/apk/BEST4K.apk" target="_blank" class="text-blue-400 hover:underline block truncate"><i class="fas fa-download mr-1"></i> تحميل مباشر تطبيق الأندرويد</a>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Server Code: <span class="text-cyan-400 font-bold">4848</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%20BEST%204K" target="_blank" class="mt-6 block w-full text-center bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+            <!-- Server 7: PAPLO RED -->
+            <div class="subscription-card glass-panel rounded-3xl p-6 relative border border-white/10 flex flex-col justify-between lg:col-span-1 md:col-span-2">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-pink-600 text-white text-xs font-bold px-3 py-1 rounded-full">CINEMA LOVERS</span>
+                        <i class="fas fa-play-circle text-2xl text-pink-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">PAPLO RED</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-key="srv-desc-7">سيرفر بابلو الشهير، مكتبة تحديثات يومية للأفلام والمسلسلات الحصرية قبل الجميع.</p>
+                    
+                    <div class="space-y-2 mb-6 bg-black/30 p-4 rounded-xl">
+                        <div class="flex justify-between text-sm"><span data-key="m1">1 شهر</span> <span class="font-bold text-pink-400">5,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m3">3 أشهر</span> <span class="font-bold text-pink-400">10,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm"><span data-key="m6">6 أشهر</span> <span class="font-bold text-pink-400">15,000 د.ع</span></div>
+                        <div class="flex justify-between text-sm border-t border-white/10 pt-2 font-bold"><span data-key="y1">سنة كاملة</span> <span class="text-green-400">25,000 د.ع</span></div>
+                    </div>
+
+                    <div class="text-xs space-y-2 text-gray-300 border-t border-white/5 pt-4">
+                        <p><strong>رابط مباشر:</strong> <span class="text-blue-400 font-mono">fhd.cx</span></p>
+                        <p><strong>Downloader Code:</strong> <span class="text-amber-400 font-mono">9568447</span></p>
+                        <p class="mt-2 border-t border-white/5 pt-2"><strong>iOS Apps (Server Code: <span class="text-pink-400 font-bold">111</span>):</strong></p>
+                        <div class="flex gap-2 mt-1">
+                            <a href="https://apps.apple.com/app/id6443335504" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">NEXT+</a>
+                            <a href="https://apps.apple.com/us/app/castora/id6760588570" target="_blank" class="bg-white/5 hover:bg-white/10 p-1.5 rounded flex-1 text-center truncate">CASTORA</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://wa.me/9647706000095?text=أريد%20الاشتراك%20في%20سيرفر%20PAPLO%20RED" target="_blank" class="mt-6 block w-full text-center bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 rounded-xl transition-colors" data-key="btn-subscribe">اشترك الآن عبر واتساب</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- قسم المشغلات الإضافية والأجهزة التلفزيونية والكمبيوتر -->
+    <section id="apps" class="py-20 bg-black/30 border-y border-white/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-white mb-4" data-key="apps-title">مشغلات مخصصة وحلول للشاشات والكمبيوتر</h2>
+                <p class="text-gray-400 text-sm" data-key="apps-desc">أفضل التطبيقات المتوافقة والمهيأة بأعلى أداء ممكن لتشغيل اشتراكك</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Trend Android Players -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                    <div class="text-purple-500 text-3xl mb-4"><i class="fab fa-android"></i></div>
+                    <h3 class="text-lg font-bold text-white mb-3" data-key="app-card-1">أفضل مشغلات الأندرويد (Trend)</h3>
+                    <div class="space-y-3 text-xs text-gray-300">
+                        <div>
+                            <span class="font-semibold text-white block">Trend Player:</span>
+                            <a href="http://apktrend.trendpro.org/" class="text-blue-400 hover:underline">apktrend.trendpro.org</a>
+                            <p class="text-gray-500">Downloader: 7511298</p>
+                        </div>
+                        <div class="pt-2 border-t border-white/5">
+                            <span class="font-semibold text-white block">TrendPro:</span>
+                            <a href="http://apktrendpro.trendpro.org/" class="text-blue-400 hover:underline">apktrendpro.trendpro.org</a>
+                            <p class="text-gray-500">Downloader: 5410798</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LG & Samsung Smart TVs -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                    <div class="text-blue-400 text-3xl mb-4"><i class="fas fa-tv"></i></div>
+                    <h3 class="text-lg font-bold text-white mb-3" data-key="app-card-2">شاشات LG و Samsung الذكية</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-4" data-key="smart-tv-text">
+                        إذا كانت شاشتك LG أو Samsung، قم بتحميل تطبيق <strong class="text-white">IBO Player</strong>، ونقوم بتفعيله لك مقابل <span class="text-green-400 font-bold">$10 مدى الحياة</span>، وبعدها تختار الباقة والسيرفر المفضل لديك.
+                    </p>
+                </div>
+
+                <!-- Windows & PC -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/5">
+                    <div class="text-amber-500 text-3xl mb-4"><i class="fab fa-windows"></i></div>
+                    <h3 class="text-lg font-bold text-white mb-3" data-key="app-card-3">أجهزة الحاسوب واللابتوب</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-4" data-key="pc-text">
+                        يمكنك تشغيل باقتك على جهاز الكمبيوتر بكل سهولة عبر تحميل المشغل الرسمي المجاني المباشر من خلال الزر أدناه.
+                    </p>
+                    <a href="https://iboproapp.com/iboplayerpro.exe" class="inline-block bg-white/5 hover:bg-white/10 text-white text-xs font-bold px-4 py-2 rounded-lg border border-white/10 transition-colors">
+                        <i class="fas fa-download mr-1"></i> تحميل مشغل الكمبيوتر Windows
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الموزعين وأصحاب المحال التجارية (B2B / Resellers) -->
+    <section id="resellers" class="py-20 max-w-5xl mx-auto px-6 text-center">
+        <div class="glass-panel p-8 md:p-12 rounded-3xl border border-purple-500/20 relative overflow-hidden shadow-2xl">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 rounded-full blur-2xl"></div>
+            <i class="fas fa-users-cog text-4xl text-purple-400 mb-4"></i>
+            <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-4" data-key="reseller-title">هل تملك محلاً تجارياً أو ترغب بأن تصبح موزعاً؟</h2>
+            <p class="text-gray-400 text-sm md:text-md max-w-2xl mx-auto mb-8" data-key="reseller-desc">
+                نوفر لوحات تحكم متكاملة ومتقدمة للموزعين وأصحاب المحال التجارية، بالإضافة إلى لوحات تفعيل IBO بأسعار تنافسية خاصة جداً لدعم عملك وتجارتك.
+            </p>
+            <a href="https://wa.me/9647706000095?text=أريد%20الاستفسار%20عن%20لوحات%20الموزعين" target="_blank" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all inline-flex items-center gap-2">
+                <i class="fas fa-handshake"></i> <span data-key="reseller-btn">تواصل معنا لطلب لوحة الموزعين</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- الفوتر (Footer) -->
+    <footer class="bg-[#050507] border-t border-white/5 py-12 text-center text-sm text-gray-500">
+        <p class="mb-2">&copy; 2026 <span class="text-white font-bold" data-key="logo">متجر الشامل</span>. جميع الحقوق محفوظة.</p>
+        <p class="text-xs text-gray-600" data-key="footer-note">جودة، ثبات، وثقة تامة تجدونها لدينا دائماً.</p>
+    </footer>
+
+    <!-- نظام الترجمة والتحويل الفوري للغتين (Arabic / English) -->
+    <script>
+        const translations = {
+            ar: {
+                "logo": "متجر الشامل",
+                "nav-packages": "الاشتراكات",
+                "nav-apps": "التطبيقات",
+                "nav-resellers": "لوحة الموزعين",
+                "hero-badge": "أقوى متجر متخصص في مجال IPTV عالمياً",
+                "hero-title": "عالم من الترفيه بـ <span class='bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500'>جودة 4K & FHD</span> بين يديك",
+                "hero-desc": "أفضل السيرفرات العالمية تضم كافة القنوات المشفرة والترفيهية، وأحدث الأفلام والمسلسلات. دعم فوري وشامل لجميع الأجهزة الذكية.",
+                "speed-title": "خطوة هامة قبل طلب الاشتراك التجريبي",
+                "speed-desc": "يرجى فحص سرعة الإنترنت لديك أولاً وإرسال لقطة شاشة للنتيجة لنمنحك السيرفر الأنسب لك.",
+                "speed-btn": "افحص سرعتك الآن",
+                "demo-btn": "طلب اشتراك تجريبي",
+                "feat-1": "تفعيل فوري ودقائق معدودة",
+                "feat-2": "دعم فني متواصل 24/7",
+                "feat-3": "جودة وثبات عالي بدون تقطيع",
+                "feat-4": "هدايا وعروض متجددة حصرية",
+                "pkg-title": "باقات سيرفراتنا العالمية المتميزة",
+                "pkg-desc": "اختر السيرفر المناسب لاحتياجاتك واضغط للاشتراك الفوري عبر الواتساب",
+                "srv-desc-1": "ثبات مطلق وقائمة ضخمة ومتنوعة من أحدث الأفلام والمسلسلات بجودة فائقة.",
+                "srv-desc-2": "عش تجربة السينما الحقيقية بجودة 4K مذهلة ومحتوى ترفيهي متكامل.",
+                "srv-desc-3": "السيرفر الأكثر طلباً للمباريات والأحداث المباشرة الكبرى بكافة الجودات المتاحة.",
+                "srv-desc-4": "يتميز بالسرعة العالية والواجهة السلسة المناسبة لجميع أفراد العائلة والأطفال.",
+                "srv-desc-5": "أقوى سيرفر في العالم بدون منازع، جودة بث خارقة 8K مخصص للشاشات العملاقة.",
+                "srv-desc-6": "توازن مذهل بين السعر الاقتصادي والجودة العالية. خيار رائع للباقات العائلية.",
+                "srv-desc-7": "سيرفر بابلو الشهير، مكتبة تحديثات يومية للأفلام والمسلسلات الحصرية قبل الجميع.",
+                "btn-subscribe": "اشترك الآن عبر واتساب",
+                "m1": "1 شهر", "m3": "3 أشهر", "m6": "6 أشهر", "y1": "سنة كاملة",
+                "apps-title": "مشغلات مخصصة وحلول للشاشات والكمبيوتر",
+                "apps-desc": "أفضل التطبيقات المتوافقة والمهيأة بأعلى أداء ممكن لتشغيل اشتراكك",
+                "app-card-1": "أفضل مشغلات الأندرويد (Trend)",
+                "app-card-2": "شاشات LG و Samsung الذكية",
+                "smart-tv-text": "إذا كانت شاشتك LG أو Samsung، قم بتحميل تطبيق IBO Player، ونقوم بتفعيله لك مقابل $10 مدى الحياة، وبعدها تختار الباقة والسيرفر المفضل لديك.",
+                "app-card-3": "أجهزة الحاسوب واللابتوب",
+                "pc-text": "يمكنك تشغيل باقتك على جهاز الكمبيوتر بكل سهولة عبر تحميل المشغل الرسمي المجاني المباشر من خلال الزر أدناه.",
+                "reseller-title": "هل تملك محلاً تجارياً أو ترغب بأن تصبح موزعاً؟",
+                "reseller-desc": "نوفر لوحات تحكم متكاملة ومتقدمة للموزعين وأصحاب المحال التجارية، بالإضافة إلى لوحات تفعيل IBO بأسعار تنافسية خاصة جداً.",
+                "reseller-btn": "تواصل معنا لطلب لوحة الموزعين",
+                "footer-note": "جودة، ثبات، وثقة تامة تجدونها لدينا دائماً."
+            },
+            en: {
+                "logo": "Al-Shamel Store",
+                "nav-packages": "Subscriptions",
+                "nav-apps": "Apps",
+                "nav-resellers": "Resellers Panel",
+                "hero-badge": "The Most Powerful Specialized IPTV Store Globally",
+                "hero-title": "Entertainment World in <span class='bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500'>4K & FHD Quality</span>",
+                "hero-desc": "Premium global servers containing all encrypted channels, entertainment, latest movies & series. Instant support for all smart devices.",
+                "speed-title": "Important Step Before Requesting a Demo",
+                "speed-desc": "Please check your internet speed first and send us a screenshot of the results to give you the perfect server.",
+                "speed-btn": "Test Speed Now",
+                "demo-btn": "Request Free Demo",
+                "feat-1": "Instant Activation within Minutes",
+                "feat-2": "24/7 Continuous Support",
+                "feat-3": "High Stability Without Lag",
+                "feat-4": "Exclusive Continuous Gifts",
+                "pkg-title": "Our Global Subscription Packages",
+                "pkg-desc": "Choose the right server for your needs and click to subscribe instantly via WhatsApp",
+                "srv-desc-1": "Absolute stability and a massive collection of latest movies & series in ultra high quality.",
+                "srv-desc-2": "Live the real cinematic experience with stunning 4K resolution and comprehensive content.",
+                "srv-desc-3": "The most requested server for sports and big live events in all available qualities.",
+                "srv-desc-4": "Features extreme speed and a very smooth user interface suitable for families & kids.",
+                "srv-desc-5": "The most powerful server in the world, premium 8K quality for giant displays.",
+                "srv-desc-6": "Incredible balance between affordable pricing and excellent high quality.",
+                "srv-desc-7": "The famous Pablo server, daily content updates for premium movies and series.",
+                "btn-subscribe": "Subscribe Now via WhatsApp",
+                "m1": "1 Month", "m3": "3 Months", "m6": "6 Months", "y1": "1 Year Full",
+                "apps-title": "Dedicated Players for TVs & PC",
+                "apps-desc": "Best compatible applications configured with peak performance to run your stream",
+                "app-card-1": "Best Android Players (Trend)",
+                "app-card-2": "LG & Samsung Smart TVs",
+                "smart-tv-text": "If you use an LG or Samsung Smart TV, download the IBO Player app. We can activate it for you for just $10 lifetime, then you choose your favorite plan.",
+                "app-card-3": "PC & Laptop Players",
+                "pc-text": "You can play your subscription easily on your computer by downloading the official free player directly below.",
+                "reseller-title": "Do you own a shop or want to become a reseller?",
+                "reseller-desc": "We provide comprehensive advanced control panels for resellers and shop owners, plus IBO activation panels at special prices.",
+                "reseller-btn": "Contact Us for Reseller Panels",
+                "footer-note": "Quality, Stability, and Complete Trust is what we always offer."
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            if(currentLang === 'en') {
+                document.body.classList.add('en-mode');
+                document.getElementById('lang-btn-text').innerText = 'العربية';
+            } else {
+                document.body.classList.remove('en-mode');
+                document.getElementById('lang-btn-text').innerText = 'English';
+            }
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[currentLang][key]) {
+                    element.innerHTML = translations[currentLang][key];
+                }
+            });
+        }
+    </script>
+</body>
+</html>
