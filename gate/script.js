@@ -42,6 +42,15 @@
   audio.addEventListener("play", () => setMusicState(true));
   audio.addEventListener("pause", () => setMusicState(false));
 
+  const enterGate = $("enterGate");
+  const enterSite = async () => {
+    musicDisabled = false;
+    await playMusic();
+    $("boot").classList.add("is-open");
+    setTimeout(() => $("boot")?.remove(), 500);
+  };
+  enterGate.addEventListener("click", enterSite);
+
   const unlock = () => { playMusic(); removeUnlock(); };
   function removeUnlock() {
     window.removeEventListener("pointerdown", unlock);
@@ -135,5 +144,4 @@
   document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeResult(); });
 
   updateGates();
-  setTimeout(() => $("boot").remove(), 1550);
 })();
