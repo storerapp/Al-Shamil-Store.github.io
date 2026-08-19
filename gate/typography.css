@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap");
+
+body,button,a{font-family:"Tajawal","Noto Kufi Arabic",Tahoma,Arial,sans-serif}
+.hero h1,.section-title h2,.gate-heading h2,.reward-card h3,.result-panel h2,.result-panel h3{font-weight:900;letter-spacing:-1.2px}
+.portal-number{display:none}
+.portal-symbol{position:relative;z-index:3;width:175px;height:175px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #ffffff1c;border-radius:50%;background:radial-gradient(circle,#311d60 0%,#120c25 52%,#07070d 75%);box-shadow:0 0 0 12px #ffffff05,0 0 65px #8c63ff55,inset 0 0 42px #51e4ff15;animation:symbol-float 3.2s ease-in-out infinite}
+.portal-symbol::before{content:"";position:absolute;inset:-15px;border:1px dashed #ffd45c66;border-radius:50%;animation:spin 16s linear infinite}
+.portal-symbol>i{position:absolute;top:21px;color:#ffd45c;font-size:27px;font-style:normal;text-shadow:0 0 22px #ffd45c}
+.portal-symbol>b{font-size:82px;line-height:1;font-weight:900;background:linear-gradient(145deg,#fff,#bba8ff 46%,#51e4ff);background-clip:text;color:transparent;text-shadow:0 0 42px #8c63ff20}
+.portal-symbol>small{margin-top:5px;color:#c7c0dc;font-size:11px;font-weight:800;letter-spacing:1px}
+.rule-grid article{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:250px;padding:38px 28px;text-align:center;isolation:isolate}
+.rule-grid article::before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% 0,currentColor,transparent 55%);opacity:.14}
+.rule-grid article>b{left:50%;top:12px;transform:translateX(-50%);font-size:68px;color:currentColor;opacity:.08}
+.rule-grid article>i{position:relative;width:62px;height:62px;display:grid;place-items:center;border:1px solid currentColor;border-radius:20px;background:#ffffff08;box-shadow:0 0 28px currentColor;font-size:29px;font-style:normal}
+.rule-grid h3{margin:25px 0 10px;color:#fff;font-size:24px;font-weight:900}
+.rule-grid p{max-width:310px;margin:0 auto;color:#c0c1ce;font-size:15px;line-height:1.9}
+.rule-grid .step-music{color:#b797ff;border-color:#9b6cff70;background:linear-gradient(145deg,#231442aa,#0b0911df)}
+.rule-grid .step-gate{color:#5de9ff;border-color:#22d3ee70;background:linear-gradient(145deg,#0a3441aa,#070d12df)}
+.rule-grid .step-prize{color:#ffd96f;border-color:#ffd45c70;background:linear-gradient(145deg,#3c2b0baa,#100d07df)}
+.contact-number{position:relative;z-index:2;margin-top:14px;padding:10px 16px;border:1px solid #ffd45c75;border-radius:999px;background:#ffd45c12;color:#ffe79a;text-decoration:none;font-size:15px;font-weight:900;letter-spacing:.6px;box-shadow:0 0 24px #ffd45c18;transition:.2s}
+.contact-number:hover{transform:translateY(-2px);background:#ffd45c20;box-shadow:0 0 30px #ffd45c30}
+@keyframes symbol-float{50%{transform:translateY(-9px) scale(1.035);box-shadow:0 0 0 16px #ffffff04,0 0 85px #8c63ff77,inset 0 0 42px #51e4ff20}}
+@media(max-width:560px){.portal-symbol{width:135px;height:135px}.portal-symbol>b{font-size:62px}.portal-symbol>i{top:13px;font-size:22px}.rule-grid article{min-height:225px}}

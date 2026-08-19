@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05050b">
+  <meta name="description" content="مسابقة بوابة متجر الشامل — اختر بوابة واحدة واربح سيرفرًا مجانيًا.">
+  <title>بوابة الشامل | المسابقة الكبرى</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./contest.css">
+  <link rel="stylesheet" href="./typography.css">
+</head>
+<body>
+  <audio id="music" src="./awards-music.mp3" autoplay loop playsinline preload="auto"></audio>
+
+  <div class="boot-screen" id="boot"><div class="boot-emblem"><span>S</span></div><b>AL SHAMIL</b><small>تُفتح بوابة الحظ الآن</small><div class="boot-line"></div></div>
+  <div class="world" aria-hidden="true"><div class="mesh"></div><div class="beam beam-a"></div><div class="beam beam-b"></div><div class="glow-orb orb-a"></div><div class="glow-orb orb-b"></div><div id="particles"></div></div>
+
+  <header class="nav-shell">
+    <a class="identity" href="#home"><span class="identity-mark">S</span><span><b>بوابة الشامل</b><small>THE SHAMIL GATE</small></span></a>
+    <button class="music-control" id="musicButton" type="button" aria-label="تشغيل الموسيقى">
+      <span class="equalizer"><i></i><i></i><i></i><i></i></span>
+      <span class="music-copy"><b id="musicTitle">تشغيل الموسيقى</b><small id="musicHint">اضغط للتشغيل</small></span>
+    </button>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <div class="live-pill"><span></span> المسابقة الكبرى • متجر الشامل</div>
+        <p class="kicker">فرصة واحدة. اختيار واحد. ثلاث جوائز.</p>
+        <h1>اختر بوابتك<br><span>ودع الحظ يتكلم</span></h1>
+        <p class="hero-text">مئة بوابة مضيئة تخفي ثلاث جوائز استثنائية. افتح بوابة واحدة فقط، واكتشف إن كان السيرفر المجاني من نصيبك.</p>
+        <div class="hero-actions"><a class="cta-main" href="#gates">ابدأ التحدي <span>←</span></a><a class="cta-secondary" href="#rewards">شاهد الجوائز</a></div>
+        <div class="trust-row"><span>✦ اختيار واحد فقط</span><span>✦ نتيجة فورية</span><span>✦ 3 أكواد فائزة</span></div>
+      </div>
+      <div class="portal-stage" aria-hidden="true">
+        <div class="portal-halo halo-outer"></div><div class="portal-halo halo-mid"></div>
+        <div class="portal-core"><div class="portal-door"><span class="portal-symbol"><i>✦</i><b>S</b><small>افتح حظك</small></span><i></i></div></div>
+        <div class="orbit orbit-one"><i></i></div><div class="orbit orbit-two"><i></i></div><span class="portal-label">بوابة الحظ</span>
+      </div>
+    </section>
+
+    <section id="rewards" class="rewards-section">
+      <div class="section-title"><span>الجوائز المخفية</span><h2>ثلاث فرص… بثلاثة ألوان</h2><p>كل جائزة تحمل لونها ومدتها وكودها الخاص.</p></div>
+      <div class="rewards-grid">
+        <article class="reward-card gold"><div class="reward-rank">01</div><div class="reward-icon">♛</div><span>الجائزة الكبرى</span><h3>سنة كاملة</h3><p>سيرفر مجاني لمدة 12 شهرًا</p><div class="reward-foot">GOLD REWARD</div></article>
+        <article class="reward-card magenta"><div class="reward-rank">02</div><div class="reward-icon">◆</div><span>الجائزة الثانية</span><h3>6 أشهر</h3><p>سيرفر مجاني لمدة 6 أشهر</p><div class="reward-foot">MAGENTA REWARD</div></article>
+        <article class="reward-card blue"><div class="reward-rank">03</div><div class="reward-icon">✦</div><span>الجائزة الثالثة</span><h3>3 أشهر</h3><p>سيرفر مجاني لمدة 3 أشهر</p><div class="reward-foot">BLUE REWARD</div></article>
+      </div>
+    </section>
+
+    <section id="gates" class="gates-section">
+      <div class="gate-heading"><div><span id="gateKicker">اختر بتركيز</span><h2 id="gateTitle">ممر البوابات المئة</h2></div><div class="attempt-state" id="attemptState"><i></i><span>لديك محاولة واحدة</span></div></div>
+      <div class="gate-vault" id="gateVault"></div>
+      <button class="show-result hidden" id="showResult" type="button">عرض نتيجة بوابتي</button>
+    </section>
+
+    <section class="rules"><div class="section-title"><span>كيف تشارك؟</span><h2>ثلاث خطوات فقط</h2></div><div class="rule-grid">
+      <article class="step-music"><b>01</b><i>♫</i><h3>استمع للأجواء</h3><p>الموسيقى تبدأ مباشرة أو مع أول لمسة داخل الصفحة.</p></article>
+      <article class="step-gate"><b>02</b><i>◇</i><h3>اختر بوابتك</h3><p>لديك بوابة واحدة فقط ولا يمكن تبديلها بعد الفتح.</p></article>
+      <article class="step-prize"><b>03</b><i>★</i><h3>استلم جائزتك</h3><p>إذا ظهر كود الفوز، احتفظ به وأرسله إلى إدارة متجر الشامل.</p><a class="contact-number" href="https://wa.me/9647806000095" target="_blank" rel="noreferrer" dir="ltr">+964 780 600 0095</a></article>
+    </div></section>
+  </main>
+
+  <footer><div class="identity"><span class="identity-mark">S</span><span><b>متجر الشامل</b><small>AL SHAMIL STORE</small></span></div><p>تجربة ترفيهية حصرية • حظًا موفقًا للجميع</p></footer>
+
+  <div class="result-overlay hidden" id="resultOverlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="confetti" id="confetti" aria-hidden="true"></div>
+    <div class="result-panel" id="resultPanel">
+      <button class="result-close" id="resultClose" type="button" aria-label="إغلاق">×</button>
+      <div class="result-burst"><span id="resultIcon">✦</span></div><small id="resultNumber"></small>
+      <h2 id="resultTitle"></h2><div id="resultContent"></div>
+      <button class="result-action" id="resultAction" type="button">العودة للمسابقة</button>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
