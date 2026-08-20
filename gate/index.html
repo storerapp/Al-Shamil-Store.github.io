@@ -18,9 +18,9 @@
   </style>
 </head>
 <body>
-  <audio id="music" src="./awards-music.mp3" autoplay loop playsinline preload="auto"></audio>
+  <audio id="music" src="./awards-music.mp3" loop playsinline preload="none"></audio>
 
-  <div class="boot-screen" id="boot" role="dialog" aria-modal="true" aria-label="دخول بوابة الشامل"><div class="boot-emblem"><span>S</span></div><b>AL SHAMIL</b><small>الموسيقى جاهزة لتبدأ مع دخولك</small><button class="enter-gate" id="enterGate" type="button">ادخل بوابة الشامل <span>♫</span></button><div class="boot-line"></div></div>
+  <div class="boot-screen" id="boot" role="dialog" aria-modal="true" aria-label="دخول بوابة الشامل"><div class="boot-emblem"><span>S</span></div><b>AL SHAMIL</b><small>اضغط دخول لبدء المسابقة</small><button class="enter-gate" id="enterGate" type="button">ادخل بوابة الشامل <span>♫</span></button><div class="boot-line"></div></div>
   <div class="world" aria-hidden="true"><div class="mesh"></div><div class="beam beam-a"></div><div class="beam beam-b"></div><div class="glow-orb orb-a"></div><div class="glow-orb orb-b"></div><div id="particles"></div></div>
 
   <header class="nav-shell">
@@ -37,18 +37,18 @@
         <div class="live-pill"><span></span> المسابقة الكبرى • متجر الشامل</div>
         <p class="kicker">فرصة واحدة. اختيار واحد. ثلاث جوائز.</p>
         <h1>اختر بوابتك<br><span>ودع الحظ يتكلم</span></h1>
-        <p class="hero-text">مئة بوابة مضيئة تخفي ثلاث جوائز استثنائية. افتح بوابة واحدة فقط، واكتشف إن كان السيرفر المجاني من نصيبك.</p>
+        <p class="hero-text">ستون بوابة مضيئة تخفي ثلاث جوائز استثنائية. افتح بوابة واحدة فقط، واكتشف إن كان السيرفر المجاني من نصيبك.</p>
         <div class="hero-actions"><a class="cta-main" href="#gates">ابدأ التحدي <span>←</span></a><a class="cta-secondary" href="#rewards">شاهد الجوائز</a></div>
         <div class="trust-row"><span>✦ اختيار واحد فقط</span><span>✦ نتيجة فورية</span><span>✦ 3 أكواد فائزة</span></div>
       </div>
       <div class="portal-stage" aria-hidden="true">
         <div class="portal-halo halo-outer"></div><div class="portal-halo halo-mid"></div>
-        <div class="portal-core"><div class="portal-door"><span class="portal-symbol"><i>✦</i><b>S</b><small>افتح حظك</small></span><i></i></div></div>
-        <div class="orbit orbit-one"><i></i></div><div class="orbit orbit-two"><i></i></div><span class="portal-label">بوابة الحظ</span>
+        <div class="portal-core"><div class="portal-door"><span class="portal-symbol"><i>✦</i><b>S</b><small>عنصر زخرفي</small><em>الاختيار من البوابات الستين بالأسفل</em></span><i></i></div></div>
+        <div class="orbit orbit-one"><i></i></div><div class="orbit orbit-two"><i></i></div><span class="portal-label">ديكور فقط • اختر من البوابات أدناه</span>
       </div>
     </section>
 
-    <section id="rewards" class="rewards-section">
+    <section id="rewards" class="rewards-section lazy-section">
       <div class="section-title"><span>الجوائز المخفية</span><h2>ثلاث فرص… بثلاثة ألوان</h2><p>كل جائزة تحمل لونها ومدتها وكودها الخاص.</p></div>
       <div class="rewards-grid">
         <article class="reward-card gold"><div class="reward-rank">01</div><div class="reward-icon">♛</div><span>الجائزة الكبرى</span><h3>سنة كاملة</h3><p>سيرفر مجاني لمدة 12 شهرًا</p><div class="reward-foot">GOLD REWARD</div></article>
@@ -57,20 +57,42 @@
       </div>
     </section>
 
-    <section id="gates" class="gates-section">
-      <div class="gate-heading"><div><span id="gateKicker">اختر بتركيز</span><h2 id="gateTitle">ممر البوابات المئة</h2></div><div class="attempt-state" id="attemptState"><i></i><span>لديك محاولة واحدة</span></div></div>
+    <section id="gates" class="gates-section lazy-section">
+      <div class="gate-heading"><div><span id="gateKicker">اختر بتركيز</span><h2 id="gateTitle">ممر البوابات الستين</h2></div><div class="attempt-state" id="attemptState"><i></i><span>لديك محاولة واحدة</span></div></div>
       <div class="gate-vault" id="gateVault"></div>
       <button class="show-result hidden" id="showResult" type="button">عرض نتيجة بوابتي</button>
     </section>
 
-    <section class="rules"><div class="section-title"><span>كيف تشارك؟</span><h2>ثلاث خطوات فقط</h2></div><div class="rule-grid">
+    <section class="rules lazy-section"><div class="section-title"><span>كيف تشارك؟</span><h2>ثلاث خطوات فقط</h2></div><div class="rule-grid">
       <article class="step-music"><b>01</b><i>♫</i><h3>استمع للأجواء</h3><p>الموسيقى تبدأ مباشرة أو مع أول لمسة داخل الصفحة.</p></article>
       <article class="step-gate"><b>02</b><i>◇</i><h3>اختر بوابتك</h3><p>لديك بوابة واحدة فقط ولا يمكن تبديلها بعد الفتح.</p></article>
-      <article class="step-prize"><b>03</b><i>★</i><h3>استلم جائزتك</h3><p>إذا ظهر كود الفوز، احتفظ به وأرسله إلى إدارة متجر الشامل.</p><a class="contact-number" href="https://wa.me/9647806000095" target="_blank" rel="noreferrer" dir="ltr">+964 780 600 0095</a></article>
+      <article class="step-prize"><b>03</b><i>★</i><h3>استلم جائزتك</h3><p>إذا ظهر كود الفوز، احتفظ به وأرسله إلى إدارة متجر الشامل.</p><a class="contact-number" href="https://wa.me/message/VUTYMJ26A54YJ1" target="_blank" rel="noopener noreferrer">مراسلتنا على واتساب</a></article>
     </div></section>
   </main>
 
-  <footer><div class="identity"><span class="identity-mark">S</span><span><b>متجر الشامل</b><small>AL SHAMIL STORE</small></span></div><p>تجربة ترفيهية حصرية • حظًا موفقًا للجميع</p></footer>
+  <section class="store-contact-v8" id="store">
+  <div class="store-v8-icon" aria-hidden="true">
+    <svg viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="22"></circle>
+      <path d="M14.5 34l1.7-6.1a11.7 11.7 0 1 1 4.8 4.1L14.5 34Z"></path>
+      <path d="M19 19.2c.5-.6 1.1-.6 1.6-.2l1.8 1.5c.4.3.5.8.2 1.2l-.8 1.1c1 1.8 2.3 3.1 4.1 4.1l1.1-.8c.4-.3.9-.2 1.2.2l1.5 1.8c.4.5.4 1.1-.2 1.6l-.8.7c-.7.6-1.6.8-2.5.5-5.4-1.7-9.1-5.4-10.8-10.8-.3-.9-.1-1.8.5-2.5l.7-.8Z"></path>
+    </svg>
+  </div>
+  <div class="store-v8-copy">
+    <span class="store-v8-eyebrow">متجر الشامل</span>
+    <h2>هل لديك استفسار؟</h2>
+    <p>لأي تفاصيل عن الجوائز أو الاشتراكات أو المسابقة، تواصل معنا مباشرة.</p>
+  </div>
+  <a class="store-v8-button" href="https://wa.me/message/VUTYMJ26A54YJ1" target="_blank" rel="noopener noreferrer">
+    <b>تواصل معنا عبر واتساب</b>
+    <small>متجر الشامل • رد مباشر</small>
+  </a>
+</section>
+
+<footer class="credit-v8">
+  <div class="credit-v8-name">صمم بواسطة <strong>AHMED NAJAH</strong></div>
+  <a class="credit-v8-phone" href="tel:+9647806000095" dir="ltr">+9647806000095</a>
+</footer>
 
   <div class="result-overlay hidden" id="resultOverlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
     <div class="confetti" id="confetti" aria-hidden="true"></div>
